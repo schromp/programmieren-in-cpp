@@ -1,5 +1,5 @@
 an array itself only stores the adresses to the values in the array
-[0][0][0] contains just the pointer to the address of the value
+cube[0][0][0] contains just the pointer to the address of the value
 
 the addresses are all 4Bytes appart because int is 4Byte big on my machine
 
@@ -17,4 +17,3 @@ this is the case because:
 Therefor 96Bytes are being allocated on my machine
 but not all are being filled by the initialization of cube1
 For example [0][*][*] is only being filled by {1,2,3,4}. -> Only 16Bytes out of the 32Bytes are being filled but all 32 are allocated
-

@@ -1,8 +1,20 @@
 #include <stdio.h>
 
+/**
+ * @brief prints the size of the specified datatypes
+ * 
+ * @return int 
+ */
 int main(void)
 {
-    printf("Hello World \n");
-
-    return 0; // 0=ExitCode: successfull; 1=ExitCode: etwas anderes; -1=Exitcode: error irgendetwas
+    printf("char %lu\n", sizeof(char));
+    printf("short %lu\n", sizeof(short));
+    printf("int %lu\n", sizeof(int));
+    printf("long %lu\n", sizeof(long));
+    printf("long long %lu\n", sizeof(long long));
+    printf("float %lu\n", sizeof(float));
+    printf("double %lu\n", sizeof(double));
+    printf("long double %lu\n", sizeof(long double));
+    printf("pointer %lu\n", sizeof(char *));
+    return 0;
 }
