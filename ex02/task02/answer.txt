@@ -1,0 +1,10 @@
+cube1 allocates 96Bytes on my machine
+this is the case because:
+    int is 4byte big on my pc
+    the last part of the array cube1[3][2] -> [4] <- allocates 4*4Bytes
+    the middle part of the array cube1[3] -> [2] <- [4] allocates 2*16Bytes
+    the last part of the array cube1 -> [3] <- [2][4] allocates 3*32Bytes
+
+Therefor 96Bytes are being allocated on my machine but not all are being filled by the initialization of cube1
+For example between the [0][][] is only being filled by {1,2,3,4}. -> Only 16Bytes out of the 96Bytes are being filled. 
+

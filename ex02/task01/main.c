@@ -1,7 +1,10 @@
 #include <stdio.h>
 
-void printsizes();
-
+/**
+ * @brief prints the size of the specified datatypes
+ * 
+ * @return int 
+ */
 int main(void)
 {
     printf("char %lu\n", sizeof(char));
