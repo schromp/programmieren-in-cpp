@@ -1,10 +1,20 @@
+an array itself only stores the adresses to the values in the array
+[0][0][0] contains just the pointer to the address of the value
+
+the addresses are all 4Bytes appart because int is 4Byte big on my machine
+
+but because we are initializing the array there is bytes being allocated
+
 cube1 allocates 96Bytes on my machine
 this is the case because:
-    int is 4byte big on my pc
+    int is 4byte big on my machine
     the last part of the array cube1[3][2] -> [4] <- allocates 4*4Bytes
     the middle part of the array cube1[3] -> [2] <- [4] allocates 2*16Bytes
     the last part of the array cube1 -> [3] <- [2][4] allocates 3*32Bytes
 
-Therefor 96Bytes are being allocated on my machine but not all are being filled by the initialization of cube1
-For example between the [0][][] is only being filled by {1,2,3,4}. -> Only 16Bytes out of the 96Bytes are being filled. 
+    so basically it allocates 2*2*4*4Bytes
+
+Therefor 96Bytes are being allocated on my machine
+but not all are being filled by the initialization of cube1
+For example [0][*][*] is only being filled by {1,2,3,4}. -> Only 16Bytes out of the 32Bytes are being filled but all 32 are allocated
 
