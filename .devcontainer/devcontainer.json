@@ -18,7 +18,8 @@
 			"extensions": [
 				"ms-vscode.cpptools",
 				"ms-vscode.cmake-tools",
-				"cschlosser.doxdocgen"
+				"cschlosser.doxdocgen",
+				"ms-vscode.makefile-tools"
 			]
 		}
 	},

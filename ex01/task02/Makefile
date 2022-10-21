@@ -1,5 +1,5 @@
-cubes: main.o
-	gcc -o cubes main.o
+cubes: main.c
+	gcc -o cubes main.c
 
-main.o: main.c
-	gcc -c main.c
+clean:
+	rm *.o

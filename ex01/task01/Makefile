@@ -1,5 +1,5 @@
-printsizes: main.o
-	gcc -o printsizes main.o
+printsizes: main.c
+	gcc -o printsizes main.c
 
-main.o: main.c
-	gcc -c main.c
+clean:
+	rm *.o

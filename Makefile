@@ -1,5 +1,5 @@
-prog: main.o
-	gcc -o prog main.o
+main: main.c
+	gcc -o main main.c
 
-main.o: main.c
-	gcc -c main.c
+clean:
+	rm *.o

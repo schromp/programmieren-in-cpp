@@ -3,7 +3,7 @@
 /**
  * @brief prints the size of the specified datatypes
  * 
- * @return int 
+ * @return int exit code for the main function
  */
 int main(void)
 {
