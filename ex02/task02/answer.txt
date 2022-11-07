@@ -1,0 +1,11 @@
+int (*x[])(int, int) 
+    -> x is array of pointer to a function expecting (int, int) and returning int
+
+int *(*x(int*))()
+    -> x is a function expecting a pointer to int and returning a pointer to a function returning a pointer to int
+
+int *(*(*x())[])(int)
+    -> x is a function returning a pointer to a array of pointer of a function expecting (int) and returning pointer to int
+
+int (*x)(int *(*)(int))
+    -> x is a pointer to a function expecting (int *(*)(int)) and returning int 

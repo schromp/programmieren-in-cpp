@@ -1,0 +1,16 @@
+If you just look at the program at base level you would think the output should be 2.
+But if you actually compile the program you can see the ouput is 1073741824.
+This is because we return a float in scope2 but interpret it as a int in scope1.
+
+In order to catch this at compile time we have to do the following:
+    Add -Wl,--warn-common to the compile command:
+	    gcc -Wl,--warn-common scope1.o scope2.o -o scope
+    
+    Which then outputs:
+        scope2.o: warning: common of `globalvar' overridden by definition
+        scope1.o: warning: defined here
+
+    This only warns you but doesnt prevent you from compiling though.
+
+    In order to stop the program from compiling you have to add --fatal-warnings aswell.
+	    gcc -Wl,--warn-common,--fatal-warnings scope1.o scope2.o -o scope
