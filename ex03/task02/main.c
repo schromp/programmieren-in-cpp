@@ -97,12 +97,6 @@ void load_jpeg(const char *name, pixel_rgb_t **img, image_size_t *const size) {
         b = r;
       }
 
-      // r, g and b contain the color information for the channels read, green
-      // and blue
-      //  current_pixel is your current pixel to fill with info from the jpeg.
-
-      // Putting the r,g,b values into the struct
-      // TODO more documentation i guess?
       current_pixel->red = r;
       current_pixel->green = g;
       current_pixel->blue = b;
@@ -214,8 +208,10 @@ int main(int argc, char **argv) {
     } // end block for switch
   }   // end block for while
 
-  // TODO this is not pretty with zeros
-  if (input_file_path == NULL || output_file_path == NULL || resize_size.height == 0 || resize_size.width == 0) {
+  // i am checking for zeros because a: that means the user didnt give size
+  // values or b: 0 is an invalid size value
+  if (input_file_path == NULL || output_file_path == NULL ||
+      resize_size.height == 0 || resize_size.width == 0) {
     printf("Missing inputs");
     return 1;
   }

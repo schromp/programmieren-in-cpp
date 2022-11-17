@@ -1,7 +1,7 @@
+#include <stdio.h>
 #include <getopt.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <jpeglib.h>
 #include <stdlib.h>
 
@@ -97,12 +97,6 @@ void load_jpeg(const char *name, pixel_rgb_t **img, image_size_t *const size) {
         b = r;
       }
 
-      // r, g and b contain the color information for the channels read, green
-      // and blue
-      //  current_pixel is your current pixel to fill with info from the jpeg.
-
-      // Putting the r,g,b values into the struct
-      // TODO more documentation i guess?
       current_pixel->red = r;
       current_pixel->green = g;
       current_pixel->blue = b;
@@ -168,13 +162,13 @@ void save_jpeg(const pixel_rgb_t *pixel_data, const image_size_t size,
     // array.
     unsigned int current_row = jpeg_info.next_scanline * size.width;
 
-    for (int i = 0; i < (size.width); i++) {
-      *current = pixel_data[current_row + i].red;
+    for (int i = 0; i < (size.width); i++) { //go through !one! row
+      *current = pixel_data[current_row + i].red; //copy over the current red value of the pixel to the row that will be read by libjpeg
       current++;
       *current = pixel_data[current_row + i].green;
       current++;
       *current = pixel_data[current_row + i].blue;
-      current++;
+      current++; //increment pointer three times in total therefor the for loop only needs to go as long as the length of *current
     }
 
     row_pointer = (JSAMPROW)row;
@@ -206,7 +200,6 @@ int main(int argc, char **argv) {
     } // end block for switch
   }   // end block for while
 
-  // TODO this is not pretty with zeros
   if (input_file_path == NULL || output_file_path == NULL) {
     printf("Missing inputs");
     return 1;

@@ -1,7 +1,7 @@
 #include <getopt.h>
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <jpeglib.h>
 #include <stdlib.h>
 #include <math.h>
@@ -35,9 +35,19 @@ typedef struct pixel_rgb_t pixel_rgb_t;
 typedef struct image_size_t image_size_t;
 
 // 𝑃(𝑥, 𝑦) = 𝑃00 ∗ (1 − 𝑑𝑥 ) ∗ (1 − 𝑑𝑦 ) + 𝑃10 ∗ 𝑑𝑥 ∗ (1 − 𝑑𝑦 ) + 𝑃01 ∗ (1 − 𝑑𝑥 ) ∗ 𝑑𝑦 + 𝑃11 ∗ 𝑑𝑥∗ 𝑑𝑧
-uint8_t interpolate(uint8_t *p00, uint8_t *p01, uint8_t *p10, uint8_t *p11, uint8_t *dx, uint8_t *dy) {
+/**
+ * @brief calculates the interpolation
+ *
+ * @param p00 top left pixel
+ * @param p01 top right pixel
+ * @param p10 bottom left pixel
+ * @param p11 bottom right pixel
+ * @param dx x distance
+ * @param dy y distance
+ */
+uint8_t interpolate(uint8_t *p00, uint8_t *p01, uint8_t *p10, uint8_t *p11, double *dx, double *dy) {
 
-  return (*p00 * (1 - *dx) * (1 - *dy) + *p10 * *dx * (1 - *dy) + *p01 * (1 - *dx) * *dy + *p11 * *dx * *dy); //letze maybe dz 
+  return (*p00 * (1 - *dx) * (1 - *dy) + *p10 * *dx * (1 - *dy) + *p01 * (1 - *dx) * *dy + *p11 * *dx * *dy); 
 
 }
 
@@ -52,9 +62,11 @@ uint8_t interpolate(uint8_t *p00, uint8_t *p01, uint8_t *p10, uint8_t *p11, uint
 void resize_image(pixel_rgb_t *in, pixel_rgb_t *out, image_size_t src_sz,
                   image_size_t trgt_sz) {
   
-  uint8_t dx = trgt_sz.width / src_sz.width;
-  uint8_t dy = trgt_sz.height / src_sz.height;
+  //calcualates the x and y distance. This is the reason my program is not working. I am trying to cast Doubles on uint8
+  double dx = (double) trgt_sz.width / src_sz.width;
+  double dy = (double) trgt_sz.height / src_sz.height;
 
+  //indexes used to stay in one pixel if needed
   double x_index_unrounded = 0.0;
   double y_index_unrounded = 0.0;
 
@@ -62,20 +74,21 @@ void resize_image(pixel_rgb_t *in, pixel_rgb_t *out, image_size_t src_sz,
     y_index_unrounded += dy;
     for(int j=0; i<trgt_sz.width; j++) { //puts into next collumn
       x_index_unrounded += dx;
-      // ROUND dx and dy to get pixel 
+
+      // ROUND dx and dy to get pixel p11
       int x_index_rounded = round(x_index_unrounded);
       int y_index_rounded = round(y_index_unrounded);
 
       // calculating indexes
-      int p11_index = x_index_rounded + (y_index_rounded * src_sz.width); 
+      int p11_index = x_index_rounded + (y_index_rounded * src_sz.width -1); 
       int p00_index = p11_index - 1 - src_sz.width;
       int p01_index = p11_index - src_sz.width;
       int p10_index = p11_index - 1;
 
       //EDGE CASES
       //EDGE CASE bottom right of image
-      if(p11_index > (src_sz.width + src_sz.height)) {
-        p11_index = src_sz.width + src_sz.height;
+      if(p11_index >= (src_sz.width + src_sz.height)) {
+        p11_index = src_sz.width + src_sz.height - 2; // -2 for because the indexes start at 0
         p00_index = p11_index - 1 - src_sz.width;
         p01_index = p11_index - src_sz.width;
         p10_index = p11_index - 1;
@@ -85,10 +98,11 @@ void resize_image(pixel_rgb_t *in, pixel_rgb_t *out, image_size_t src_sz,
       if(p00_index <= 0) {
         p00_index = 0;
         p01_index = 1;
-        p10_index = src_sz.width;
+        p10_index = src_sz.width -1;
         p11_index = 1 + src_sz.width;
       }
 
+      //getting the actual pixels out of the input image
       pixel_rgb_t p11 = in[p11_index];
       pixel_rgb_t p00 = in[p11_index - 1 - src_sz.width];
       pixel_rgb_t p01 = in[p11_index - src_sz.width];
@@ -105,11 +119,6 @@ void resize_image(pixel_rgb_t *in, pixel_rgb_t *out, image_size_t src_sz,
   }
 
 }
-
-int round_to_index(double f) {
-  return (int) (f - fmod(f, 1.0));
-}
-
 
 /**
  * @brief Loads pixels from a JPEG file into memory.
@@ -161,12 +170,6 @@ void load_jpeg(const char *name, pixel_rgb_t **img, image_size_t *const size) {
         b = r;
       }
 
-      // r, g and b contain the color information for the channels read, green
-      // and blue
-      //  current_pixel is your current pixel to fill with info from the jpeg.
-
-      // Putting the r,g,b values into the struct
-      // TODO more documentation i guess?
       current_pixel->red = r;
       current_pixel->green = g;
       current_pixel->blue = b;
@@ -247,7 +250,7 @@ void save_jpeg(const pixel_rgb_t *pixel_data, const image_size_t size,
 
   free(row);
 
-  jpeg_finish_compress(&jpeg_info); // this is causing the overflow
+  jpeg_finish_compress(&jpeg_info);
 }
 
 int main(int argc, char **argv) {
@@ -278,7 +281,6 @@ int main(int argc, char **argv) {
     } // end block for switch
   }   // end block for while
 
-  // TODO this is not pretty with zeros
   if (input_file_path == NULL || output_file_path == NULL || resize_size.height == 0 || resize_size.width == 0) {
     printf("Missing inputs");
     return 1;
@@ -288,8 +290,6 @@ int main(int argc, char **argv) {
   pixel_rgb_t *img;
   image_size_t size;
   pixel_rgb_t *scaled_img = calloc((size_t)resize_size.width * resize_size.height, sizeof(pixel_rgb_t));
-
-  printf("%d", resize_size.width);
 
   load_jpeg(input_file_path, &img, &size);
 
