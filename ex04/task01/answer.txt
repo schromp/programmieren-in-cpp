@@ -1,0 +1,44 @@
+What are the advantages and disadvantages of the macro and function solutions?
+
+Macro:
+    Advantages: 
+        - Speed of execution is faster
+        - useful when small code is repeated often
+    Disadvantages: 
+        - Do not check for compile time errors 
+        - Do not type check
+        - Increases code length
+
+
+Function:
+    Advantages:
+        - Type checking
+        - Compile time errors
+        - Code length stays unaffected
+        - useful for large code
+
+    Disadvantages:
+        - Speed of execution slower
+
+
+
+Why does the commented line in the code not compile?
+
+a is a Integer and b + 0.2 is being converted into a float.
+Therefor the resulting computation is ambigous
+
+
+
+Which maxf() functions are called for the maxf1-maxf3 outputs and why?
+
+maxf1:
+    - Calls int function
+    - input types are both integers
+
+maxf2:
+    - Calls double function
+    - input type are both doubles because + 2.0 converts them into a float implicitly
+
+maxf3:
+    - Calls int function
+    - inputs are both integers. b++ is still an integer, just +1

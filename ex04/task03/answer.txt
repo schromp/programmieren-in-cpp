@@ -1,0 +1,20 @@
+The output of the program is:
+top = 1, bottom = 42
+the for loop is overflowing the array
+
+Input Commands:
+
+break 13
+run
+watch s.bottom
+continue
+print i
+
+Explanation:
+
+Breakpoint at 13 so s.bottom is in scope
+I setup the watchpoint at s.bottom to see when it is changing
+when s.bottom got changed i looked at the line where it happened
+i saw that it was in the for loop and printed i
+i came to the conclusion that the for loop is overflowing 
+and therefor writing into s.bottom
