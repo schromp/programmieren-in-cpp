@@ -14,6 +14,13 @@ class StopWatch {
   time_t end_time;
 
 public:
+  
+  /**
+   * @brief constructor
+   */
+  StopWatch() : started(false) {};
+
+
   /**
    * @brief starts the stopwatch if not started yet otherwise print an error
    */

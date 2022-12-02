@@ -1,0 +1,17 @@
+The way my tests work:
+- I create one random Stack before I loop through both tests
+- The stack is deep copied into the loop the same way for both test cases
+- then the the test case handles what to do with the stack(copy or move)
+
+Note: Most of the runtime comes from the copying into the loop but that needed to be done
+  in order to have the same conditions for both test cases
+
+Result:
+My computer requires 1.89852 seconds to execute Copy assignment test 1000000 times
+My computer requires 1.78365 seconds to execute Move assignment test 1000000 times
+
+The move assignment is quicker because the program does not have to allocate 
+a new stack in the move assignment test but rather just copies the pointer to the allocated
+stack and puts it into the new stack.
+While in the copy assignment the stack has to be allocated and copied over to the new stack
+
