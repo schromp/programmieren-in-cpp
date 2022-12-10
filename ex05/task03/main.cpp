@@ -17,8 +17,8 @@ int main() {
 
   Stack s1 = random_stack();
 
-  MEASURETIME("Copy assignment test", 1000000, Stack s2 = s1; Stack s3(10000); s3 = s2;) 
-  MEASURETIME("Move assignment test", 1000000, Stack s2 = s1; Stack s3(s2);)
+  MEASURETIME("Copy assignment test", 100000, Stack s2 = s1; Stack s3(10000); s3 = s2;) 
+  MEASURETIME("Move assignment test", 100000, Stack s2 = s1; Stack s3(s2);)
 
   return 0;
 }

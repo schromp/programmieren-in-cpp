@@ -1,0 +1,5 @@
+Preincrement operators are used if you want to pertain the change in the object.
+
+Postincrement operators are used if you only need the incremented object temporarily
+
+preincrement is also more performant than postincrement due to not having to create a temporary copy

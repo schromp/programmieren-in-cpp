@@ -1,0 +1,7 @@
+The default = implementation of C++ compares two objects
+by comparing every variable with every variable
+
+if the variables are the equal then the objects are the equal
+
+for example time1(0, 1, 5) and time2(0, 1, 5) are the same
+because every variable inside of the objects are the same

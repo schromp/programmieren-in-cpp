@@ -1,0 +1,9 @@
+Overriding the std library is not possible.
+Therefor the only option is to overload the << operator
+That means im rewriting the function that prints the characters in of the string
+after << 
+
+Because im overriding the << operator I have to reimplement the printing of the
+given string
+
+While reimplementing the function I can just add ---start--- and ---end--- to be printed
