@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "secarr.hpp"
 
@@ -34,4 +35,5 @@ int main(void) {
   sarr--;
   cout << "*sarr = " <<  *sarr << endl;
 }
+
 

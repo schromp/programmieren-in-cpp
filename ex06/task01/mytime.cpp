@@ -103,7 +103,8 @@ MyTime::operator int() const {
  * @return cout to be used further
  */
 ostream &operator<<(ostream &cout, const MyTime &time) {
-  cout << time.hour << ":" << time.minute << ":" << time.second;
+  printf("%02d:%02d:%02d", time.hour, time.minute, time.second);
+  // cout << time.hour << ":" << time.minute << ":" << time.second;
   return cout;
 }
 

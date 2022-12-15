@@ -36,7 +36,7 @@ SecArr& SecArr::operator++() {
   if(this->current == this->last) {
     printf("Invalid index\n");
   } else {
-    this->current++;
+    this->current += 1;
   }
   return *this;
 }
@@ -52,9 +52,9 @@ SecArr SecArr::operator++(int) {
   SecArr temp = *this;
   if(this->current == this->last) {
     printf("Invalid index\n");
-    return temp; // WARN: this is why there are random numbers in the output
+    return temp; 
   } else {
-    temp.current++;
+    this->current += 1;
     return temp;
   }
 }
@@ -68,7 +68,7 @@ SecArr& SecArr::operator--() {
   if(this->current == this->first) {
     printf("Invalid index\n");
   } else {
-    this->current--;
+    this->current -= 1;
   }
   return *this;
 }
@@ -86,7 +86,7 @@ SecArr SecArr::operator--(int) {
     printf("Invalid index\n");
     return temp;
   } else {
-    temp.current--;
+    this->current -= 1;
     return temp;
   }
 }
