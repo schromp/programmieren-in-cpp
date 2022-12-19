@@ -1,0 +1,29 @@
+My Measurements:
+  Same class and pure
+    My computer requires 0.056971 seconds to execute pure.myFunc() 50000000 times
+    My computer requires 0.066296 seconds to execute vder.myFunc() 50000000 times
+    My computer requires 0.071671 seconds to execute ppure->myFunc() 50000000 times
+    My computer requires 0.055392 seconds to execute pvder->myFunc() 50000000 times
+
+  Same class and virtual
+    My computer requires 0.066835 seconds to execute vder.virtFunc() 50000000 times
+    My computer requires 0.077198 seconds to execute pvder->virtFunc() 50000000 times
+    My computer requires 0.066797 seconds to execute vbase.nvFunc() 50000000 times
+    My computer requires 0.07728 seconds to execute vbase.virtFunc() 50000000 times
+    My computer requires 0.077365 seconds to execute pvbase->nvFunc() 50000000 times
+    My computer requires 0.075638 seconds to execute pvbase->virtFunc() 50000000 times
+
+  Base class and virtual
+    My computer requires 0.056356 seconds to execute vder.nvFunc() 50000000 times -- this is not access via pointer so its faster
+    My computer requires 0.075674 seconds to execute pvder->nvFunc() 50000000 times
+    My computer requires 0.075833 seconds to execute pvbaseder->nvFunc() 50000000 times
+    My computer requires 0.075498 seconds to execute pvbaseder->virtFunc() 50000000 times
+
+The 4 pure functions are faster on average because they have 0 overhead
+
+All virtual functions take longer because they have to be dispatched at runtime
+
+Task 03:
+
+dynamic casting checks at runtime while static casting checks at compile time
+therefor dynamic casting has more overhead and static casting is less safe

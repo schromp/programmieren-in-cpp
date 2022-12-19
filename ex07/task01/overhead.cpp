@@ -1,12 +1,33 @@
 #include "stopwatch.hpp"
 
+/**
+ * @brief measures time for the given instruction
+ *
+ * @param description
+ * @param repetitions
+ * @param instructions2test
+ */
+#define MEASURETIME(description, repetitions, instructions2test)               \
+  {                                                                            \
+    StopWatch sw;                                                              \
+    sw.start();                                                                \
+    for (int i = 0; i < repetitions; i++) {                                    \
+      instructions2test                                                        \
+    }                                                                          \
+    double stop = sw.stop();                                                   \
+    std::cout << "My computer requires " << stop << " seconds to execute "     \
+              << description << " " << repetitions << " times" << std::endl;   \
+  }
+
 class StaticBase {
   static int counter;
+
+public:
+  StaticBase() { counter = 0; };
   static void myFunc() {
     counter++;
 #ifdef VERBOSE
-    std::cout << "Called " << typeid(*this).name() << "::" << __func__
-              << std::endl;
+    std::cout << "Called StaticBase::" << __func__ << std::endl;
 #endif
   };
 };
@@ -16,10 +37,10 @@ private:
   int counter;
 
 public:
-  PureBase();
+  PureBase() { counter = 0; };
   void myFunc() {
-#ifdef VERBOSE
     counter++;
+#ifdef VERBOSE
     std::cout << "Called " << typeid(*this).name() << "::" << __func__
               << std::endl;
 #endif
@@ -27,9 +48,17 @@ public:
 };
 
 class VirtBase {
+  int counter;
+
 public:
-  VirtBase();
-  void nvFunc();
+  VirtBase() { counter = 0; };
+  virtual void nvFunc() {
+    counter++;
+#ifdef VERBOSE
+    std::cout << "Called " << typeid(*this).name() << "::" << __func__
+              << std::endl;
+#endif
+  };
   virtual void virtFunc() {
     counter++;
 #ifdef VERBOSE
@@ -37,12 +66,13 @@ public:
               << std::endl;
 #endif
   };
-  int counter;
 };
 
 class VirtDer : public VirtBase {
+  int counter;
+
 public:
-  void myFunc();
+  void myFunc() { counter = 0; };
   virtual void virtFunc() {
     counter++;
 #ifdef VERBOSE
@@ -50,7 +80,6 @@ public:
               << std::endl;
 #endif
   };
-  int counter;
 };
 
 int main(void) {
@@ -62,25 +91,58 @@ int main(void) {
   VirtDer *pvder = new VirtDer();
   VirtBase *pvbaseder = pvder;
 
-  pure.myFunc();
+  // StaticBase::myFunc();
 
-  // MEASURETIME("test", 10, vbase.nvFunc();)
+  // Invokes from same class and pure function
+  pure.myFunc();
+  vder.myFunc();
+  ppure->myFunc();
+  pvder->myFunc();
+
+  // Invokes from same class and virtual function
+  vder.virtFunc();
+  pvder->virtFunc();
   vbase.nvFunc();
   vbase.virtFunc();
-
-  vder.virtFunc();
-  vder.nvFunc();
-  vder.myFunc();
-
-  ppure->myFunc();
-
   pvbase->nvFunc();
   pvbase->virtFunc();
 
-  pvder->virtFunc();
+  // Invokes from base class and virtual function
+  vder.nvFunc();
   pvder->nvFunc();
-  pvder->myFunc();
-
   pvbaseder->nvFunc();
   pvbaseder->virtFunc();
+
+#ifdef TASK02
+  // MEASURETIME("StaticBase::myFunc()", 50000000, StaticBase::myFunc();)
+
+  // Invokes from same class and pure function
+  MEASURETIME("pure.myFunc()", 50000000, pure.myFunc();)
+  MEASURETIME("vder.myFunc()", 50000000, vder.myFunc();)
+  MEASURETIME("ppure->myFunc()", 50000000, ppure->myFunc();)
+  MEASURETIME("pvder->myFunc()", 50000000, pvder->myFunc();)
+
+  // Invokes from same class and virtual function
+  MEASURETIME("vder.virtFunc()", 50000000, vder.virtFunc();)
+  MEASURETIME("pvder->virtFunc()", 50000000, pvder->virtFunc();)
+  MEASURETIME("vbase.nvFunc()", 50000000, vbase.nvFunc();)
+  MEASURETIME("vbase.virtFunc()", 50000000, vbase.virtFunc();)
+  MEASURETIME("pvbase->nvFunc()", 50000000, pvbase->nvFunc();)
+  MEASURETIME("pvbase->virtFunc()", 50000000, pvbase->virtFunc();)
+
+  // Invokes from base class and virtual function
+  MEASURETIME("vder.nvFunc()", 50000000, vder.nvFunc();)
+  MEASURETIME("pvder->nvFunc()", 50000000, pvder->nvFunc();)
+  MEASURETIME("pvbaseder->nvFunc()", 50000000, pvbaseder->nvFunc();)
+  MEASURETIME("pvbaseder->virtFunc()", 50000000, pvbaseder->virtFunc();)
+#endif
+
+#ifdef TASK03
+
+  VirtDer *pvbasestcast = static_cast<VirtDer *>(pvbase);
+  MEASURETIME("static", 50000000, pvbasestcast->myFunc();)
+  VirtDer *pvbasedyncast = dynamic_cast<VirtDer *>(pvder);
+  MEASURETIME("dynamic", 50000000, pvbasedyncast->myFunc();)
+
+#endif
 }
