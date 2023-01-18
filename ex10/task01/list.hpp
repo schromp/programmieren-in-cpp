@@ -16,6 +16,11 @@ template <typename T> class List;
 template <typename T>
 std::ostream &operator<<(std::ostream &out, const List<T> &list);
 
+/**
+ * @brief class implementing a doubly linked list
+ *
+ * @tparam T type to be stored in list
+ */
 template <typename T> class List : public Collection<T> {
 private:
   Node<T> *first;
@@ -40,11 +45,21 @@ public:
   Node<T> *getLast() const;
 };
 
+/**
+ * @brief constructor
+ *
+ * @tparam T
+ */
 template <typename T> List<T>::List() {
   this->first = nullptr;
   this->last = nullptr;
 }
 
+/**
+ * @brief destructor - removes all managed nodes from memory
+ *
+ * @tparam T
+ */
 template <typename T> List<T>::~List() {
   if (!isEmpty()) {
     Node<T> *current = first;
@@ -56,6 +71,15 @@ template <typename T> List<T>::~List() {
   }
 }
 
+/**
+ * @brief cout overload
+ *
+ * @tparam T
+ * @param os output
+ * @param list the list to be ouput
+ *
+ * @return cout to be used further
+ */
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const List<T> &list) {
   if (list.isEmpty()) {
@@ -72,6 +96,12 @@ std::ostream &operator<<(std::ostream &os, const List<T> &list) {
   }
 }
 
+/**
+ * @brief add a value to the end of the list
+ *
+ * @tparam T
+ * @param value
+ */
 template <typename T> void List<T>::add(T value) {
   if (isEmpty()) {
     Node<T> *node = new Node<T>(value, nullptr, nullptr);
@@ -84,6 +114,12 @@ template <typename T> void List<T>::add(T value) {
   }
 }
 
+/**
+ * @brief add a value to the front of the list
+ *
+ * @tparam T
+ * @param value
+ */
 template <typename T> void List<T>::add_front(T value) {
   if (isEmpty()) {
     Node<T> *node = new Node<T>(value, nullptr, nullptr);
@@ -96,6 +132,13 @@ template <typename T> void List<T>::add_front(T value) {
   }
 }
 
+/**
+ * @brief remove a value from the end of the list
+ *
+ * @tparam T
+ *
+ * @return removed value
+ */
 template <typename T> T List<T>::remove() {
   if (isEmpty()) {
     return 0;
@@ -112,6 +155,13 @@ template <typename T> T List<T>::remove() {
   }
 }
 
+/**
+ * @brief remove value from front of the list
+ *
+ * @tparam T
+ *
+ * @return removed value
+ */
 template <typename T> T List<T>::remove_front() {
   if (isEmpty()) {
     return 0;
@@ -128,6 +178,13 @@ template <typename T> T List<T>::remove_front() {
   }
 }
 
+/**
+ * @brief is the list empty
+ *
+ * @tparam T
+ *
+ * @return bool is empty
+ */
 template <typename T> bool List<T>::isEmpty() const {
   if (first == nullptr && last == nullptr) {
     return true;
@@ -136,6 +193,14 @@ template <typename T> bool List<T>::isEmpty() const {
   }
 }
 
+/**
+ * @brief list contains the value
+ *
+ * @tparam T
+ * @param obj
+ *
+ * @return bool does contain
+ */
 template <typename T> bool List<T>::contains(T obj) {
   if (!isEmpty()) {
     Node<T> *current = first;
@@ -150,11 +215,32 @@ template <typename T> bool List<T>::contains(T obj) {
   return false;
 }
 
+/**
+ * @brief clear the list and remove all managed nodes
+ *
+ * @tparam T
+ */
 template <typename T> void List<T>::clear() {
+  if(!isEmpty()) {
+    Node<T> *current = first;
+    while(current->next != nullptr) {
+      Node<T> *save = current;
+      current = current->next;
+      delete save;
+    }
+  }
   first = nullptr;
   last = nullptr;
+
 }
 
+/**
+ * @brief get the size of the list
+ *
+ * @tparam T
+ *
+ * @return size of the list
+ */
 template <typename T> int List<T>::getSize() const {
   if (isEmpty()) {
     return 0;
@@ -171,6 +257,20 @@ template <typename T> int List<T>::getSize() const {
   }
 }
 
+/**
+ * @brief get pointer to first node of list
+ *
+ * @tparam T
+ *
+ * @return first node of list
+ */
 template <typename T> Node<T> *List<T>::getFirst() const { return this->first; }
 
+/**
+ * @brief get pointer to last node of list
+ *
+ * @tparam T
+ *
+ * @return last node of list
+ */
 template <typename T> Node<T> *List<T>::getLast() const { return last; }
