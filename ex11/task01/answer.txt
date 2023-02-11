@@ -1,0 +1,13 @@
+without any fixes:
+  function returns the iterator that was used to insert.
+  this iterator does not have the updated container values
+  so when we set it in the pair it is wrong!
+
+fixa:
+  due to not being allowed to use the return value
+  we have to walk through the container again and find the
+  spot where we have inserted.
+
+fixb:
+  when using insert the return value is an updated iterator
+  which includes the changes we have made to the container

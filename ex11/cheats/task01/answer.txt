@@ -1,0 +1,55 @@
+             ______________________________________________
+
+              PROGRAMMING IN C/C++ - EXERCISE 11 - TASK 01
+
+                             Tuan-Dat Tran
+                     tuan-dat.tran@stud.uni-due.de
+             ______________________________________________
+
+
+
+
+
+Task01
+======
+
+  Use findposition() to find a position for 31 in each container and
+  insert it there.  Then call printnext3() starting at the element
+  before the insert position.  Note that you have to reuse the
+  previously created iterator (findposition()) for this purpose.
+
+
+What is the result and what causes it?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  The result is:
+     30 31 32 
+     30 31 32 
+     30 31 32 
+
+  for
+
+  ,----
+  | printnext3(vec, find_pos_vec.first);
+  | std::cout << std::endl;
+  | printnext3(deq, find_pos_deq.first);
+  | std::cout << std::endl;
+  | printnext3(lst, find_pos_lst.first);
+  | std::cout << std::endl;
+  `----
+
+
+How do you fix it without using the return value of the insert function?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  It doesn't seem like I have to fix anything.
+
+
+How do you fix it with using the return value of the insert function?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  Itdoesn't seem like I have to fix anything.
+
+
+
+                                                           Tuan-Dat Tran
